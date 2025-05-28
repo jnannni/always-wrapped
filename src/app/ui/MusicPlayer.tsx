@@ -31,6 +31,7 @@ export default function MusicPlayer() {
           />
         </button>
       </div>
+      <p className="inline-block text-[12px] mb-[10px]">Name of the song</p>
       <div className="w-[270px] h-[8px] border-1 border-black md:w-[150px]">
         <div></div>
       </div>
