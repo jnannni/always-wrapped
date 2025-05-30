@@ -1,8 +1,8 @@
 import Image from "next/image";
 export default function MusicPlayer() {
   return (
-    <div className="flex flex-col items-center border-1 border-black rounded-[10px] py-[30px] md:max-h-[150px] md:border-none">
-      <div className="flex gap-[40px] mb-[14px] md:gap-[11px]">
+    <div className="flex flex-col items-center border-1 border-black rounded-[10px] py-[20px] md:max-h-[150px] md:border-none">
+      <div className="flex gap-[30px] mb-[14px] md:gap-[11px]">
         <button>
           <Image
             src="/player-rewind-icon.svg"
@@ -31,8 +31,8 @@ export default function MusicPlayer() {
           />
         </button>
       </div>
-      <p className="inline-block text-[12px] mb-[10px]">Name of the song</p>
-      <div className="w-[270px] h-[8px] border-1 border-black md:w-[150px]">
+      <p className="inline-block text-[12px] mb-[5px]">Name of the song</p>
+      <div className="w-[270px] h-[8px] border-1 border-black rounded-[5px] md:w-[150px]">
         <div></div>
       </div>
     </div>

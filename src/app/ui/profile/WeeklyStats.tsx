@@ -1,5 +1,5 @@
 "use client";
-import { cherryBombOne } from "../layout";
+import { cherryBombOne } from "../../layout";
 import MusicItemCard from "./MusicItemCard";
 import Image from "next/image";
 export default function WeeklyStats() {
@@ -13,9 +13,16 @@ export default function WeeklyStats() {
         <span className="inline-block leading-8 xl:leading-9">
           Your top <br className="md:hidden" />
           <span
-            className={`${cherryBombOne.className} text-[60px] xl:text-[70px]`}
+            className={`${cherryBombOne.className} inline-block relative text-[60px] xl:text-[70px]`}
           >
             weekly
+            <Image
+              src="/text-underline-up.svg"
+              width={317}
+              height={48}
+              alt="Underline for a word"
+              className="absolute left-3 top-7 -z-1"
+            />
           </span>
         </span>
         <br />

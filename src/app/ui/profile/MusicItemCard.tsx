@@ -38,7 +38,11 @@ export default function MusicItemCard(props: MusicItemCardProps) {
       </p>
       <span className="inline-block text-[12px] xl:text-[14px]">33</span>
       <div className="ml-auto relative">
-        <button ref={detailsRef} onClick={handleDetailsClick}>
+        <button
+          ref={detailsRef}
+          onClick={handleDetailsClick}
+          className="cursor-pointer"
+        >
           <Image
             src="/more-icon.svg"
             width={512}

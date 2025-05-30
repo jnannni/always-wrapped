@@ -1,9 +1,12 @@
-import { cherryBombOne } from "../layout";
+import { cherryBombOne } from "../../layout";
 import WrappedOverviewList from "./WrappedOverviewList";
 import Image from "next/image";
-export default function WrappedCard() {
+export default function WrappedCard(year = 2024) {
+  const color = year === 2024 ? "bg-crimson" : "bg-red-500";
   return (
-    <div className="w-[317px] h-[155px] border-1 border-black border-b-0 relative overflow-hidden shrink-0">
+    <div
+      className={`${color} w-[317px] h-[155px] border-1 border-black relative overflow-hidden shrink-0 rounded-[10px] mb-[8px]`}
+    >
       <h2
         className={`${cherryBombOne.className} text-[92px] absolute leading-none -mt-5 -left-5 opacity-30`}
       >
