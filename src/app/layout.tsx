@@ -7,7 +7,7 @@ const quicksand = Quicksand({
   display: "swap",
 });
 
-export const cherryBombOne = Cherry_Bomb_One({
+const cherryBombOne = Cherry_Bomb_One({
   subsets: ["latin"],
   display: "swap",
   weight: "400",

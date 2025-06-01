@@ -1,5 +1,4 @@
 "use client";
-import { cherryBombOne } from "../../layout";
 import MusicItemCard from "./MusicItemCard";
 import Image from "next/image";
 export default function WeeklyStats() {
@@ -9,9 +8,7 @@ export default function WeeklyStats() {
       <h3 className="font-semibold text-[50px] leading-8 mb-[5px] md:mb-[25px] xl:text-[60px] xl:leading-9">
         <span className="inline-block leading-8 xl:leading-9">
           Your top <br className="md:hidden" />
-          <span
-            className={`${cherryBombOne.className} inline-block relative text-[60px] xl:text-[70px]`}
-          >
+          <span className={`inline-block relative text-[60px] xl:text-[70px]`}>
             weekly
             <Image
               src="/text-underline-up.svg"
