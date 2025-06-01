@@ -1,4 +1,3 @@
-import Image from "next/image";
 import UserStatsCard from "./UserStatsCard";
 import MusicPlayer from "./MusicPlayer";
 export default function MainProfileSection() {

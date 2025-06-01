@@ -1,4 +1,3 @@
-import Image from "next/image";
 export default function WrappedOverviewList() {
   return (
     <div className="flex flex-col">

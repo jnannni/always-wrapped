@@ -3,10 +3,7 @@ import { cherryBombOne } from "../../layout";
 import MusicItemCard from "./MusicItemCard";
 import Image from "next/image";
 export default function WeeklyStats() {
-  const handleDetailsItemClick = (
-    item: string,
-    buttonRef: HTMLButtonElement
-  ) => {};
+  const handleDetailsItemClick = () => {};
   return (
     <section className="flex flex-col gap-[5px]">
       <h3 className="font-semibold text-[50px] leading-8 mb-[5px] md:mb-[25px] xl:text-[60px] xl:leading-9">

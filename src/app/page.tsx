@@ -1,10 +1,9 @@
-import Image from "next/image";
-import LogIn from "./ui/authUI/LogIn";
+import SignIn from "./ui/authUI/SignIn";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main className="mx-[30px] flex flex-col gap-[37px] xl:mx-[80px]">
-      <LogIn />
+      <SignIn />
     </main>
   );
 }
