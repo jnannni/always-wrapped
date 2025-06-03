@@ -5,7 +5,7 @@ export default function SignIn() {
       <form
         action={async () => {
           "use server";
-          await signIn("spotify");
+          await signIn("spotify", { redirectTo: "/profile" });
         }}
         className="flex flex-col justify-center border-1 w-fit px-[100px] py-[50px] "
       >

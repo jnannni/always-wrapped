@@ -2,11 +2,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import LogOutButton from "./authUI/LogOutButton";
 export default function Navbar() {
   const [isNavVisible, setIsNavVisible] = useState(false);
-  const [isLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isProfileOptionsVisible, setIsProfileOptionsVisible] = useState(false);
-
   return (
     <header className="pt-[24px] pb-[24px] mx-[30px] xl:pb-[52px] xl:mx-[80px]">
       <nav className="flex justify-between items-center">
@@ -69,9 +69,7 @@ export default function Navbar() {
                         <Link href="/profile">Profile</Link>
                       </li>
                       <li>
-                        <button className="lowercase text-center cursor-pointer">
-                          Logout
-                        </button>
+                        <LogOutButton />
                       </li>
                     </ul>
                   </div>
@@ -83,9 +81,7 @@ export default function Navbar() {
               )}
             </li>
             <li className="flex justify-center block py-[8px] border-b border-black w-full lowercase md:border-none md:pl-[20px] sm:hidden">
-              <button className="lowercase text-center cursor-pointer">
-                Logout
-              </button>
+              <LogOutButton />
             </li>
           </ul>
         </div>

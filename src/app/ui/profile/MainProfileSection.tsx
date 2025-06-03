@@ -1,12 +1,30 @@
+import Image from "next/image";
 import UserStatsCard from "./UserStatsCard";
 import MusicPlayer from "./MusicPlayer";
-export default function MainProfileSection() {
+import { getSpotifyProfile } from "@/services/spotify";
+export default async function MainProfileSection() {
+  const profile = await getSpotifyProfile();
+  console.log(profile);
+  const imgInfo = profile.images[0];
+  const username = profile.display_name;
+
+  const profileImg = (
+    <img
+      src={imgInfo.url || ""}
+      alt="Profile image"
+      height={imgInfo.height}
+      width={imgInfo.width}
+      className="object-cover"
+    />
+  );
   return (
     <section className="flex flex-col gap-[25px]">
       <div className="flex flex-col md:flex-row md:items-center gap-[30px] md:gap-[50px]">
         <div className="flex gap-[25px] md:flex-col md:gap-[10px]">
-          <div className="w-[140px] h-[140px] rounded-full bg-black md:order-2"></div>
-          <h3 className="text-[20px] font-semibold md:order-1">Username</h3>
+          <div className="w-[140px] h-[140px] rounded-full bg-black overflow-hidden md:order-2">
+            {profileImg}
+          </div>
+          <h3 className="text-[20px] font-semibold md:order-1">{username}</h3>
         </div>
         <MusicPlayer />
       </div>
