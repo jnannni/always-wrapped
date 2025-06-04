@@ -1,4 +1,3 @@
-import Image from "next/image";
 import UserStatsCard from "./UserStatsCard";
 import MusicPlayer from "./MusicPlayer";
 import { getSpotifyProfile } from "@/services/spotify";
