@@ -18,7 +18,7 @@ export default function MusicItemCard(props: MusicItemCardProps) {
   };
 
   return (
-    <div className="flex items-center px-[20px] py-[0.5rem] border border-black rounded-[10px] md:w-[450px] xl:w-[600px]">
+    <div className="flex items-center px-[20px] py-[0.5rem] border border-black rounded-[10px] md:w-[450px] md:py-[1rem] xl:w-[600px]">
       <span className="inline-block text-[18px] w-[20px] mr-[20px] xl:text-[24px]">
         1
       </span>

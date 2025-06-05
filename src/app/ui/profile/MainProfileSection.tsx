@@ -1,4 +1,5 @@
 import UserStatsCard from "./UserStatsCard";
+import ConnectLastfmCard from "./ConnectLastfmCard";
 import MusicPlayer from "./MusicPlayer";
 import { getSpotifyProfile } from "@/services/spotify";
 export default async function MainProfileSection() {
@@ -35,7 +36,7 @@ export default async function MainProfileSection() {
           </div>
           <div className="flex flex-nowrap gap-[24px]">
             <UserStatsCard name="Minutes listened" />
-            <UserStatsCard name="Tracks added" />
+            <ConnectLastfmCard />
           </div>
         </div>
       </div>

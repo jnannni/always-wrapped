@@ -34,7 +34,7 @@ export default function WeeklyStats() {
             className="w-[15px] ml-[175px] md:ml-[285px] xl:ml-[380px] xl:w-[20px]"
           />
         </div>
-        <div className="flex flex-col gap-[15px] max-h-[295px] md:max-h-[335px] overflow-hidden">
+        <div className="flex flex-col gap-[15px] max-h-[295px] md:max-h-[365px] overflow-hidden">
           <MusicItemCard onHandleDetailsClick={handleDetailsItemClick} />
           <MusicItemCard onHandleDetailsClick={handleDetailsItemClick} />
           <MusicItemCard onHandleDetailsClick={handleDetailsItemClick} />

@@ -20,7 +20,12 @@ export default function LoggedInProfileOptions() {
       >
         <ul className="text-white text-[18px]">
           <li className="mb-[15px]">
-            <Link href="/profile">Profile</Link>
+            <Link
+              href="/profile"
+              onClick={() => setIsProfileOptionsVisible(false)}
+            >
+              Profile
+            </Link>
           </li>
           <li>
             <LogOutButton />
