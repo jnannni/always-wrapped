@@ -1,4 +1,5 @@
 import SignIn from "./ui/authUI/SignIn";
+import LastfmConnect from "./ui/lastfm-form/LastfmConnect";
 
 export default async function Home() {
   return (

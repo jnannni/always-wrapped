@@ -2,10 +2,11 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #121212;
 }
 
 @theme {
+  --color-primary-text: #121212;
   --color-limegreen: #1dd75e;
   --color-limegreen-800: #6de182;
   --color-limegreen-700: #86e694;
@@ -26,6 +27,7 @@
   --color-darkgoldenrod: #e9b26d;
   --color-darkgoldenrod: #efbf85;
   --color-darkgoldenrod: #f4cb9d;
+  --color-placeholder: #e3e3e3;
 }
 
 @theme inline {

@@ -1,23 +1,19 @@
 import { signIn } from "@/auth";
+import SignInButton from "./SignInButton";
 export default function SignIn() {
   return (
-    <div>
+    <div className="border-1 px-[100px] py-[100px] w-fit">
       <form
         action={async () => {
           "use server";
           await signIn("spotify", { redirectTo: "/profile" });
         }}
-        className="flex flex-col justify-center border-1 w-fit px-[100px] py-[50px] "
+        className="flex flex-col border-box justify-center w-[250px] items-center"
       >
-        <p className="mb-[20px] max-w-[200px] text-center">
+        <h3 className="mb-[20px] max-w-[200px] text-center">
           To edit your wrapped, please, log in with your Spotify account
-        </p>
-        <button
-          type="submit"
-          className="px-[15px] py-[5px] rounded-[5px] bg-black text-white font-semibold w-full cursor-pointer"
-        >
-          Signin with Spotify
-        </button>
+        </h3>
+        <SignInButton text="Signin with Spotify" />
       </form>
     </div>
   );

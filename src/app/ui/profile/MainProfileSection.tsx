@@ -4,7 +4,6 @@ import MusicPlayer from "./MusicPlayer";
 import { getSpotifyProfile } from "@/services/spotify";
 export default async function MainProfileSection() {
   const profile = await getSpotifyProfile();
-  console.log(profile);
   const imgInfo = profile.images[0];
   const username = profile.display_name;
 
