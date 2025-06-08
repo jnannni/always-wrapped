@@ -8,3 +8,8 @@ export async function getSupabaseAccessToken() {
     const session = await auth();
     return session?.supabaseAccessToken;
 }
+
+export async function getUserId() {
+    const session = await auth();
+    return session?.user?.id;
+}

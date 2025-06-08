@@ -1,18 +1,25 @@
 "use client";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import SignInButton from "../authUI/SignInButton";
 import { getSession } from "next-auth/react";
-import { MdClose, MdInfoOutline } from "react-icons/md";
+import BodyTemplate from "./BodyTemplate";
+import LastfmProfilePreview from "./LastfmProfilePreview";
+import type { LastfmUser } from "@/app/types/lastfm";
+
 export default function LastfmConnect(props: {
   className?: string;
   setState: (value: boolean) => void;
 }) {
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [user, setUser] = useState<LastfmUser | null>(null);
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const username = e.currentTarget.username.value;
     const session = await getSession();
     const accessToken = session?.supabaseAccessToken;
-    const res = await fetch("/api/lastfm-profile", {
+    const res = await fetch("/api/lastfm-db", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -28,26 +35,22 @@ export default function LastfmConnect(props: {
     } else console.log("Inserted " + result.data);
   }
 
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const username = e.currentTarget.username.value;
+    const data = await fetch("/api/lastfm/profile-preview", {
+      method: "POST",
+      body: JSON.stringify({ username: username }),
+    });
+    const result = await data.json();
+    setUser(result);
+  }
+
   return (
-    <div
-      className={`${props.className} z-10 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-primary-text bg-white border-1 rounded-[10px] border-black md:w-[500px] md:h-[390px]`}
-    >
-      <div className="flex justify-between md:mt-[25px] md:w-[430px]">
-        <button data-tooltip-target="info-tooltip" className="cursor-pointer">
-          <MdInfoOutline className="w-[25px] h-[25px]" />
-        </button>
-        <div className="absolute z-15 invisible inline-block bg-foreground text-white transition-opacity duration-300 rounded-[10px] opacity-0 md:text-[15px]"></div>
-        <div id="info-tooltip" role="tooltip" className="absolute hidden"></div>
-        <button
-          className="cursor-pointer"
-          onClick={() => props.setState(false)}
-        >
-          <MdClose className="w-[25px] h-[25px]" />
-        </button>
-      </div>
+    <BodyTemplate setState={props.setState} className={props.className}>
       <form
         className="flex flex-col items-center md:mt-[30px]"
-        onSubmit={handleSubmit}
+        onSubmit={submit}
       >
         <h3 className="text-center md:text-[30px] md:leading-7 md:mx-[60px]">
           Connect to lastfm😁 Enter your lastfm username.
@@ -65,6 +68,7 @@ export default function LastfmConnect(props: {
         <SignInButton
           text="Connect to my lastfm"
           className="md:w-[400px] md:h-[50px] md:mt-[60px]"
+          onClickHandler={() => setIsPreviewOpen(!isPreviewOpen)}
         />
       </form>
       <a
@@ -74,6 +78,13 @@ export default function LastfmConnect(props: {
       >
         Check your username on lastfm👉
       </a>
-    </div>
+      {user !== null && (
+        <LastfmProfilePreview
+          setState={setIsPreviewOpen}
+          className={isPreviewOpen ? "block z-11" : "hidden"}
+          user={user}
+        />
+      )}
+    </BodyTemplate>
   );
 }

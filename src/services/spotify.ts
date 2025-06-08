@@ -15,6 +15,22 @@ export async function getSpotifyProfile() {
     return data;
 }
 
+export async function isSpotifyTokenValid() {
+    const accessToken = await getAccessToken();
+    if (!accessToken) {
+        return false;
+    }
+    const res = await fetch("https://api.spotify.com/v1/me", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    });
+    if (res.status === 401) {
+        return false;
+    }
+    return true;
+}
+
 export async function getUserTopTracks(timeRange = "medium_term", offset = 0, limit = 5) {
     const accessToken = await getAccessToken();
     if (!accessToken) {
