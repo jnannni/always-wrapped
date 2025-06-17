@@ -1,86 +1,75 @@
 "use client";
 import { FormEvent, useState } from "react";
 import SignInButton from "../authUI/SignInButton";
-import { getSession } from "next-auth/react";
 import BodyTemplate from "./BodyTemplate";
 import LastfmProfilePreview from "./LastfmProfilePreview";
-import type { LastfmUser } from "@/app/types/lastfm";
+import LastfmInput from "./LastfmInput";
+import { useLastfmProfilePreview } from "@/hooks/useLastfmProfilePreview";
+import { useAddLastmUserDB } from "@/hooks/useAddLastmUserDB";
 
 export default function LastfmConnect(props: {
   className?: string;
-  setState: (value: boolean) => void;
+  setIsModalOpen: (value: boolean) => void;
 }) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [user, setUser] = useState<LastfmUser | null>(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const action = isConfirmed ? handleSubmit : handlePreview;
+  const header = isConfirmed ? (
+    <span>
+      Almost there! Make sure you chose the right account and confirm!
+    </span>
+  ) : (
+    <span>Connect to lastfm😁 Enter your lastfm username.</span>
+  );
+  const buttonText = isConfirmed ? "Connect to my lastfm" : "Preview my lastfm";
+  const { user, preview } = useLastfmProfilePreview();
+  const { submit } = useAddLastmUserDB();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const username = e.currentTarget.username.value;
-    const session = await getSession();
-    const accessToken = session?.supabaseAccessToken;
-    const res = await fetch("/api/lastfm-db", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        username: username,
-      }),
-    });
-
-    const result = await res.json();
-    if (result.error) {
-      console.log(result.error);
-    } else console.log("Inserted " + result.data);
+    await submit(username);
   }
 
-  async function submit(e: FormEvent<HTMLFormElement>) {
+  async function handlePreview(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const username = e.currentTarget.username.value;
-    const data = await fetch("/api/lastfm/profile-preview", {
-      method: "POST",
-      body: JSON.stringify({ username: username }),
-    });
-    const result = await data.json();
-    setUser(result);
+    await preview(username);
   }
 
   return (
-    <BodyTemplate setState={props.setState} className={props.className}>
+    <BodyTemplate setState={props.setIsModalOpen} className={props.className}>
       <form
-        className="flex flex-col items-center md:mt-[30px]"
-        onSubmit={submit}
+        className="flex flex-col items-center md:mt-[20px]"
+        onSubmit={action}
       >
-        <h3 className="text-center md:text-[30px] md:leading-7 md:mx-[60px]">
-          Connect to lastfm😁 Enter your lastfm username.
+        <h3 className={`text-center md:text-[30px] md:leading-7 md:mx-[60px]`}>
+          {header}
         </h3>
-        <div>
-          <input
-            type="text"
-            name="username"
-            is="u👉sername"
-            required
-            placeholder="Username"
-            className="bg-placeholder rounded-[10px] md:h-[50px] md:w-[400px] md:px-[25px] md:mt-[40px]"
-          />
-        </div>
+        <LastfmInput isConfirmed={isConfirmed} />
         <SignInButton
-          text="Connect to my lastfm"
-          className="md:w-[400px] md:h-[50px] md:mt-[60px]"
-          onClickHandler={() => setIsPreviewOpen(!isPreviewOpen)}
+          text={buttonText}
+          className={`md:w-[400px] md:h-[50px] md:mt-[60px]`}
+          onClickHandler={
+            isConfirmed
+              ? () => props.setIsModalOpen(false)
+              : () => setIsPreviewOpen(!isPreviewOpen)
+          }
         />
       </form>
-      <a
-        href="https://www.last.fm/user/my_username"
-        target="_blank"
-        className="underline md:mt-[10px] md:text-[15px] hover:font-bold"
-      >
-        Check your username on lastfm👉
-      </a>
+      {!isConfirmed && (
+        <a
+          href="https://www.last.fm/user/my_username"
+          target="_blank"
+          className="underline md:mt-[10px] md:text-[15px] hover:font-bold"
+        >
+          Check your username on lastfm👉
+        </a>
+      )}
       {user !== null && (
         <LastfmProfilePreview
           setState={setIsPreviewOpen}
+          setIsRightAccount={setIsConfirmed}
           className={isPreviewOpen ? "block z-11" : "hidden"}
           user={user}
         />

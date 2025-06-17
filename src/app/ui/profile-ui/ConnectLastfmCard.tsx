@@ -18,7 +18,7 @@ export default function ConnectLastfmCard() {
         />
         <LastfmConnect
           className={isModalOpen ? "block" : "hidden"}
-          setState={setIsModalOpen}
+          setIsModalOpen={setIsModalOpen}
         />
         <Button text="Why?" />
       </div>

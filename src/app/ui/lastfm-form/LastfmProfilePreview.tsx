@@ -6,6 +6,7 @@ export default function LastfmProfilePreview(props: {
   user: LastfmUser;
   className?: string;
   setState: (value: boolean) => void;
+  setIsRightAccount: (value: boolean) => void;
 }) {
   const { name, realname, country, image, registered } = props.user;
   console.log(props.user.image);
@@ -35,6 +36,10 @@ export default function LastfmProfilePreview(props: {
         <Button
           text="Yes, it is me!"
           className="py-[15px] rounded-[10px] bg-limegreen text-primary-black font-semibold w-full md:mt-[30px]"
+          onClickHandler={() => {
+            props.setIsRightAccount(true);
+            props.setState(false);
+          }}
         />
       </div>
     </BodyTemplate>
