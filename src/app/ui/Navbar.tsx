@@ -1,6 +1,6 @@
 import AppNavigation from "./navbar/AppNavigation";
 import { auth } from "@/auth";
-import { isSpotifyTokenValid } from "@/services/spotify";
+import { isSpotifyTokenValid } from "@/lib/spotify/spotify";
 export default async function Navbar() {
   const session = await auth();
   const isValid = await isSpotifyTokenValid();

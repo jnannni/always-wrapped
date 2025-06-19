@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Button from "../Button";
 import LastfmConnect from "../lastfm-form/LastfmConnect";
-export default function ConnectLastfmCard() {
+export default function ConnectLastfmCard(props: { accessToken: string | "" }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="bg-black flex-col text-white w-[198px] h-[135px] content-between rounded-lg shrink-0 relative">
@@ -19,6 +19,7 @@ export default function ConnectLastfmCard() {
         <LastfmConnect
           className={isModalOpen ? "block" : "hidden"}
           setIsModalOpen={setIsModalOpen}
+          accessToken={props.accessToken}
         />
         <Button text="Why?" />
       </div>

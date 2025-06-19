@@ -10,6 +10,7 @@ import { useAddLastmUserDB } from "@/hooks/useAddLastmUserDB";
 export default function LastfmConnect(props: {
   className?: string;
   setIsModalOpen: (value: boolean) => void;
+  accessToken: string;
 }) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -28,7 +29,7 @@ export default function LastfmConnect(props: {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const username = e.currentTarget.username.value;
-    await submit(username);
+    await submit(username, props.accessToken);
   }
 
   async function handlePreview(e: FormEvent<HTMLFormElement>) {

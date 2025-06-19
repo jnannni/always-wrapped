@@ -1,8 +1,5 @@
-import {auth} from "@/auth";
 export function useAddLastmUserDB() {
-    async function submit(username: string) {
-        const session = await auth();
-        const accessToken = session?.supabaseAccessToken;
+    async function submit(username: string, accessToken: string) {
         const res = await fetch("/api/lastfm-db", {
             method: "POST",
             headers: {

@@ -1,8 +1,11 @@
+import { auth } from "@/auth";
 import UserStatsCard from "./UserStatsCard";
 import ConnectLastfmCard from "./ConnectLastfmCard";
 import MusicPlayer from "./MusicPlayer";
-import { getSpotifyProfile } from "@/services/spotify";
+import { getSpotifyProfile } from "@/lib/spotify/spotify";
 export default async function MainProfileSection() {
+  const session = await auth();
+  const accessToken = session?.supabaseAccessToken;
   const profile = await getSpotifyProfile();
   const imgInfo = profile.images[0];
   const username = profile.display_name;
@@ -35,7 +38,7 @@ export default async function MainProfileSection() {
           </div>
           <div className="flex flex-nowrap gap-[24px]">
             <UserStatsCard name="Minutes listened" />
-            <ConnectLastfmCard />
+            <ConnectLastfmCard accessToken={accessToken ?? ""} />
           </div>
         </div>
       </div>

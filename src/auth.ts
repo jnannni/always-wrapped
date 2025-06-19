@@ -23,7 +23,9 @@ declare module "next-auth/jwt" {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [Spotify],
+  providers: [Spotify({
+    authorization: `https://accounts.spotify.com/authorize?scope=${encodeURIComponent('user-read-email user-top-read playlist-read-private playlist-read-collaborative user-read-recently-played user-library-read user-read-private')}`,
+  })],
   adapter: SupabaseAdapter({
     url: process.env.SUPABASE_URL ?? '',
     secret: process.env.SUPABASE_SERVICE_ROLE_KEY ?? '',
