@@ -3,6 +3,7 @@ import UserStatsCard from "./UserStatsCard";
 import ConnectLastfmCard from "../../../features/lastfm-connect/ConnectLastfmCard";
 import { getSpotifyProfile } from "@/shared/api/spotify";
 import Image from "next/image";
+import { ToastButton } from "./ToastButton";
 export default async function MainProfileSection() {
   const session = await auth();
   const accessToken = session?.supabaseAccessToken;
@@ -28,7 +29,7 @@ export default async function MainProfileSection() {
           </div>
           <h3 className="text-[20px] font-semibold md:order-1">{username}</h3>
         </div>
-        {/* <MusicPlayer /> */}
+        <ToastButton />
       </div>
       <div className="scroll-smooth overflow-x-auto overflow-hidden mb-[38px]">
         <div className="flex flex-col gap-[15px] w-fit">

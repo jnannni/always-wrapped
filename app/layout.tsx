@@ -1,4 +1,5 @@
 import { SessionProvider } from "next-auth/react";
+import { Providers } from "@/shared/providers/Providers";
 import { Quicksand, Cherry_Bomb_One } from "next/font/google";
 import "./globals.css";
 import Navbar from "../src/shared/ui/Navbar";
@@ -24,8 +25,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${quicksand.className} ${cherryBombOne.variable}`}>
         <SessionProvider>
-          <Navbar />
-          {children}
+          <Providers>
+            <Navbar />
+            {children}
+          </Providers>
         </SessionProvider>
       </body>
     </html>
