@@ -1,26 +1,25 @@
-import LFFormBodyTemplate from "@/shared/ui/LFFormBodyTemplate";
 import Button from "@/shared/ui/Button";
 import type { LastfmUser } from "@/shared/types/lastfm";
+import Image from "next/image";
 
 export default function LastfmProfilePreview(props: {
   user: LastfmUser;
-  className?: string;
-  setState: (value: boolean) => void;
   setIsRightAccount: (value: boolean) => void;
+  closeModal: (modalName: string) => void;
 }) {
-  const { name, realname, country, image, registered } = props.user;
-  console.log(props.user.image);
+  const { name, country, image, registered } = props.user;
   const registrationDate = new Date(
     Number(registered.unixtime) * 1000
   ).toDateString();
   const img = (
-    <img
+    <Image
       className="rounded-full md:w-[130px] md:h-[130px] bg-black"
       src={image[3]["#text"]}
+      alt="Lastfm profile image"
     />
   );
   return (
-    <LFFormBodyTemplate className={props.className} setState={props.setState}>
+    <>
       <h3 className="text-center md:text-[30px] md:leading-7 md:mx-[60px]">
         Please confirm your account. Is it you?
       </h3>
@@ -38,10 +37,10 @@ export default function LastfmProfilePreview(props: {
           className="py-[15px] rounded-[10px] bg-limegreen text-primary-black font-semibold w-full md:mt-[30px]"
           onClickHandler={() => {
             props.setIsRightAccount(true);
-            props.setState(false);
+            props.closeModal("lastfm-preview");
           }}
         />
       </div>
-    </LFFormBodyTemplate>
+    </>
   );
 }

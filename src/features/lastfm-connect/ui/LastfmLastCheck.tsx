@@ -1,4 +1,4 @@
-import type { LastfmUser } from "@/app/types/lastfm";
+import type { LastfmUser } from "@/shared/types/lastfm";
 export default function LastfmLastCheck(props: { user: LastfmUser }) {
   return (
     <div className="flex flex-col md:gap-[20px]">

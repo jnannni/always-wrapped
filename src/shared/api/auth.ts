@@ -1,4 +1,4 @@
-import { auth} from "@root/auth";
+import { auth } from "@root/auth";
 export async function getAccessToken() {
     const session = await auth();
     return session?.accessToken;

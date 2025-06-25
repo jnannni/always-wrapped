@@ -1,9 +1,11 @@
 import { MdClose, MdInfoOutline } from "react-icons/md";
+import useModalsContext from "./modals/useModalsContext";
 export default function LFFormBodyTemplate(props: {
   children: React.ReactNode;
+  modalName: string;
   className?: string;
-  setState: (value: boolean) => void;
 }) {
+  const { closeModal } = useModalsContext();
   return (
     <div
       className={`${props.className} z-10 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-primary-text bg-white border-1 rounded-[10px] border-black md:w-[500px] md:h-[390px]`}
@@ -16,7 +18,7 @@ export default function LFFormBodyTemplate(props: {
         <div id="info-tooltip" role="tooltip" className="absolute hidden"></div>
         <button
           className="cursor-pointer"
-          onClick={() => props.setState(false)}
+          onClick={() => closeModal(props.modalName)}
         >
           <MdClose className="w-[25px] h-[25px]" />
         </button>

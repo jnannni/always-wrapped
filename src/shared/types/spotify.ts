@@ -1,3 +1,9 @@
+export type SpotifyResType = {
+    topTracks: SpotifyTrack[];
+    topArtists: SpotifyArtist[];
+    userAlbums: SpotifyUserAlbums[];
+}
+
 //base
 type SpotifyBaseTrack = {
     artists: SpotifyTrackArtist[];

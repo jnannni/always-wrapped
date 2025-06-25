@@ -1,19 +1,19 @@
 "use client";
-import { FormEvent, useState } from "react";
-import SignInButton from "../navigation/auth/SignInButton";
-import BodyTemplate from "@/shared/ui/LFFormBodyTemplate";
+import { FormEvent, useEffect, useState } from "react";
 import LastfmProfilePreview from "./ui/LastfmProfilePreview";
 import LastfmInput from "./ui/LastfmInput";
 import { useLastfmProfilePreview } from "@/features/lastfm-connect/hooks/useLastfmProfilePreview";
 import { useAddLastmUserDB } from "@/features/lastfm-connect/hooks/useAddLastmUserDB";
+import useModalsContext from "@/shared/ui/modals/useModalsContext";
 
 export default function LastfmConnect(props: {
   className?: string;
-  setIsModalOpen: (value: boolean) => void;
   accessToken: string;
+  closeModal: () => void;
 }) {
-  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [hasOpenedPreview, setHasOpenedPreview] = useState(false);
+  const { addModal, closeModal } = useModalsContext();
   const action = isConfirmed ? handleSubmit : handlePreview;
   const header = isConfirmed ? (
     <span>
@@ -25,6 +25,23 @@ export default function LastfmConnect(props: {
   const buttonText = isConfirmed ? "Connect to my lastfm" : "Preview my lastfm";
   const { user, preview } = useLastfmProfilePreview();
   const { submit } = useAddLastmUserDB();
+
+  useEffect(() => {
+    if (user && !hasOpenedPreview) {
+      addModal(
+        "lastfm-preview",
+        <LastfmProfilePreview
+          user={user}
+          setIsRightAccount={setIsConfirmed}
+          closeModal={() => {
+            closeModal("lastfm-preview");
+            setHasOpenedPreview(false);
+          }}
+        />
+      );
+      setHasOpenedPreview(true);
+    }
+  }, [user, hasOpenedPreview, addModal, closeModal]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,7 +56,7 @@ export default function LastfmConnect(props: {
   }
 
   return (
-    <BodyTemplate setState={props.setIsModalOpen} className={props.className}>
+    <>
       <form
         className="flex flex-col items-center md:mt-[20px]"
         onSubmit={action}
@@ -48,15 +65,12 @@ export default function LastfmConnect(props: {
           {header}
         </h3>
         <LastfmInput isConfirmed={isConfirmed} />
-        <SignInButton
-          text={buttonText}
-          className={`md:w-[400px] md:h-[50px] md:mt-[60px]`}
-          onClickHandler={
-            isConfirmed
-              ? () => props.setIsModalOpen(false)
-              : () => setIsPreviewOpen(!isPreviewOpen)
-          }
-        />
+        <button
+          type="submit"
+          className="px-[15px] py-[5px] rounded-[10px] bg-limegreen text-primary-black font-semibold w-full cursor-pointer md:w-[400px] md:h-[50px] md:mt-[60px]"
+        >
+          {buttonText}
+        </button>
       </form>
       {!isConfirmed && (
         <a
@@ -67,14 +81,6 @@ export default function LastfmConnect(props: {
           Check your username on lastfm👉
         </a>
       )}
-      {user !== null && (
-        <LastfmProfilePreview
-          setState={setIsPreviewOpen}
-          setIsRightAccount={setIsConfirmed}
-          className={isPreviewOpen ? "block z-11" : "hidden"}
-          user={user}
-        />
-      )}
-    </BodyTemplate>
+    </>
   );
 }
