@@ -1,22 +1,21 @@
-import { auth } from "../../../../auth";
+"use client";
 import UserStatsCard from "./UserStatsCard";
 import ConnectLastfmCard from "../../../features/lastfm-connect/ConnectLastfmCard";
-import { getSpotifyProfile } from "@/shared/api/spotify";
 import Image from "next/image";
 import { ToastButton } from "./ToastButton";
-export default async function MainProfileSection() {
-  const session = await auth();
-  const accessToken = session?.supabaseAccessToken;
-  const profile = await getSpotifyProfile();
-  const imgInfo = profile.images[0];
-  const username = profile.display_name;
+import useSpotifyStoreContext from "@/shared/contexts/spotify/useSpotifyStoreContext";
+export default function MainProfileSection() {
+  const { spotifyStore } = useSpotifyStoreContext();
+  const { userProfile } = spotifyStore;
+  const imgInfo = userProfile.images[0];
+  const username = userProfile.display_name;
 
   const profileImg = (
     <Image
       src={imgInfo.url || ""}
       alt="Profile image"
-      height={imgInfo.height}
-      width={imgInfo.width}
+      height={Number(imgInfo.height)}
+      width={Number(imgInfo.width)}
       className="object-cover"
     />
   );
@@ -39,7 +38,7 @@ export default async function MainProfileSection() {
           </div>
           <div className="flex flex-nowrap gap-[24px]">
             <UserStatsCard name="Minutes listened" />
-            <ConnectLastfmCard accessToken={accessToken ?? ""} />
+            <ConnectLastfmCard accessToken={""} />
           </div>
         </div>
       </div>

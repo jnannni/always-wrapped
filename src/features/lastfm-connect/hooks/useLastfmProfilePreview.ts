@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { LastfmUser } from "@/app/types/lastfm";
+import type { LastfmUser } from "@/shared/types/lastfm";
 export function useLastfmProfilePreview() {
     const [user, setUser] = useState<LastfmUser | null>(null);
 

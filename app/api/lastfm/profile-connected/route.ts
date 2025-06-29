@@ -1,5 +1,5 @@
 import {auth} from "../../../../auth";
-import { getUsernameFromSupabase } from "@/lib/supabase";
+import { getUsernameFromSupabase } from "@/shared/api/supabase";
 import { NextResponse } from "next/server";
 
 export async function GET() {

@@ -1,5 +1,5 @@
 import { SessionProvider } from "next-auth/react";
-import { Providers } from "@/shared/providers/Providers";
+import { Providers } from "@/app/providers/Providers";
 import { Quicksand, Cherry_Bomb_One } from "next/font/google";
 import "./globals.css";
 import Navbar from "../src/shared/ui/Navbar";

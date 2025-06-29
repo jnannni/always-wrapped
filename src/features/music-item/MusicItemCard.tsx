@@ -2,17 +2,22 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import ItemDetails from "./ItemDetails";
+import { SpotifyTrack } from "@/shared/types/spotify";
 
 type MusicItemCardProps = {
+  track: SpotifyTrack;
   onHandleDetailsClick: (item: string, buttonRef: HTMLButtonElement) => void;
 };
-export default function MusicItemCard(props: MusicItemCardProps) {
+export default function MusicItemCard({
+  track,
+  onHandleDetailsClick,
+}: MusicItemCardProps) {
   const detailsRef = useRef<HTMLButtonElement>(null);
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
 
   const handleDetailsClick = () => {
     if (detailsRef.current) {
-      props.onHandleDetailsClick("item", detailsRef.current);
+      onHandleDetailsClick("item", detailsRef.current);
       setIsDetailsVisible(!isDetailsVisible);
     }
   };
@@ -25,15 +30,17 @@ export default function MusicItemCard(props: MusicItemCardProps) {
       <div className="w-[40px] h-[40px] bg-black mr-[15px] xl:w-[55px] xl:h-[55px]"></div>
       <p className="flex flex-col w-[145px] mr-[10px] xl:w-[200px]">
         <span className="inline-block text-[12px] xl:text-[18px]">
-          Track Name
+          {track.name}
         </span>
         <span className="inline-block text-[8px] xl:text-[14px]">
-          Artist Name
+          {track.artists.length > 1
+            ? track.artists.map((artist) => artist.name).join(", ")
+            : track.artists[0].name}
         </span>
       </p>
       <p className="hidden md:block">
         <span className="inline-block text-[12px] mr-[40px] xl:text-[18px]">
-          Album Name
+          {track.album.name}
         </span>
       </p>
       <span className="inline-block text-[12px] xl:text-[14px]">33</span>
