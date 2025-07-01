@@ -1,7 +1,15 @@
 export type SpotifyResType = {
     userProfile: SpotifyUserProfile;
-    topTracks: SpotifyTrack[];
-    topArtists: SpotifyArtist[];
+    topTracks: {
+        short_term: SpotifyTrack[];
+        medium_term: SpotifyTrack[];
+        long_term: SpotifyTrack[];
+    };
+    topArtists: {
+        short_term: SpotifyArtist[];
+        medium_term: SpotifyArtist[];
+        long_term: SpotifyArtist[];
+    }
     userAlbums: SpotifyUserAlbum[];
     type: 'spotify';
 }

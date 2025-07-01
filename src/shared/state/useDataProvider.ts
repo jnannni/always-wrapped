@@ -1,8 +1,11 @@
 "use client";
 import { useCallback, useState } from "react";
 import { SpotifyResType } from "../types/spotify";
+import { LastfmResType } from "../types/lastfm";
 
-export const useDataProvider = <T extends SpotifyResType>(
+type DataType = SpotifyResType | LastfmResType;
+
+export const useDataProvider = <T extends DataType>(
   fetchFn: () => Promise<T | null>,
   source: T["type"]
 ) => {
@@ -32,5 +35,5 @@ export const useDataProvider = <T extends SpotifyResType>(
     }
   }, [fetched]);
 
-  return { items, pending, error, fetch };
+  return { items, pending, error, fetched, fetch };
 };

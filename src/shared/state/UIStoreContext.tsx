@@ -2,13 +2,18 @@
 import { createContext, useEffect, useState } from "react";
 import { useSpotifyProvider } from "./useSpotifyProvider";
 import { SpotifyResType } from "../types/spotify";
+import { useAuth } from "../lib/hooks/useAuth";
+import { LastfmResType } from "../types/lastfm";
+import { useLastfmProvider } from "./useLastfmProvider";
 
 type UIStoreContextType = {
-  items: SpotifyResType | null;
+  items: SpotifyResType | LastfmResType | null;
   pending: boolean;
+  fetched: boolean;
   error: Error | null;
   toggle: "spotify" | "lastfm";
   onToggle: () => void;
+  onTimeChange: (timeRange: string) => void;
 };
 
 type ViewToggle = "spotify" | "lastfm";
@@ -20,14 +25,26 @@ export const UIStoreProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const AVAILABLE_TIME_RANGES = {
+    spotify: ["short_term", "medium_term", "long_term"],
+    lastfm: ["overall", "7day", "1month", "3month", "6month", "12month"],
+  };
   const spotifyData = useSpotifyProvider();
-  const lastfmData = useSpotifyProvider();
+  const lastfmData = useLastfmProvider();
+  const { accessToken } = useAuth();
 
   useEffect(() => {
-    spotifyData.fetch();
-  }, [spotifyData]);
+    if (accessToken) {
+      spotifyData.fetch();
+      lastfmData.fetch();
+    }
+  }, [accessToken]);
 
-  const [toggle, setToggle] = useState<ViewToggle>("spotify");
+  const [toggle, setToggle] = useState<ViewToggle>("lastfm");
+  const [timeRanges, setTimeRanges] = useState({
+    spotify: "medium_term",
+    lastfm: "7day",
+  });
   const dataMap = {
     ["spotify"]: spotifyData,
     ["lastfm"]: lastfmData,
@@ -38,14 +55,21 @@ export const UIStoreProvider = ({
   function handleToggle() {
     setToggle((prev) => (prev === "spotify" ? "lastfm" : "spotify"));
   }
+
+  function handleTimeRangeChange(range: string) {
+    setTimeRanges((prev) => ({ ...prev, [toggle]: range }));
+  }
+
   return (
     <UIStoreContext.Provider
       value={{
         items: currentData.items,
         pending: currentData.pending,
+        fetched: currentData.fetched,
         error: currentData.error,
         toggle,
         onToggle: handleToggle,
+        onTimeChange: handleTimeRangeChange,
       }}
     >
       {children}

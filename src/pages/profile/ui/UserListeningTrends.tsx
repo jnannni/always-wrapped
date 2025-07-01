@@ -1,12 +1,11 @@
 import Image from "next/image";
+import SpotifyUserTopTracks from "./SpotifyUserTopTracks";
 
 type UserListeningTrendsProps = {
   timeRange: string;
-  children: React.ReactNode;
 };
 export default function UserListeningTrends({
   timeRange,
-  children,
 }: UserListeningTrendsProps) {
   return (
     <section className="flex flex-col gap-[5px]">
@@ -27,7 +26,7 @@ export default function UserListeningTrends({
         <br />
         tracks
       </h3>
-      {children}
+      <SpotifyUserTopTracks />
     </section>
   );
 }

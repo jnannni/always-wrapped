@@ -1,11 +1,30 @@
+"use client";
 import Image from "next/image";
 import MusicItemCard from "@/features/music-item/MusicItemCard";
 import React from "react";
 import { SpotifyTrack } from "@/shared/types/spotify";
+import { LastfmTrack } from "@/shared/types/lastfm";
+import useUIStoreContext from "@/shared/state/useUIStoreContext";
 
-type TracksChartProps = {
-  tracks: SpotifyTrack[];
+type SpotifyTracks = {
+  tracks: {
+    short_term: SpotifyTrack[];
+    medium_term: SpotifyTrack[];
+    long_term: SpotifyTrack[];
+  };
 };
+
+type LastfmTracks = {
+  tracks: {
+    overall: LastfmTrack[];
+    "7day": LastfmTrack[];
+    "1month": LastfmTrack[];
+    "3month": LastfmTrack[];
+    "6month": LastfmTrack[];
+    "12month": LastfmTrack[];
+  };
+};
+type TracksChartProps = SpotifyTracks | LastfmTracks;
 
 export default function TracksChart({ tracks }: TracksChartProps) {
   const handleDetailsItemClick = () => {};
@@ -23,7 +42,7 @@ export default function TracksChart({ tracks }: TracksChartProps) {
         />
       </div>
       <div className="flex flex-col gap-[15px] max-h-[295px] md:max-h-[365px] overflow-hidden">
-        {tracks.map((track) => (
+        {tracks.long_term.map((track) => (
           <MusicItemCard
             key={track.id}
             track={track}

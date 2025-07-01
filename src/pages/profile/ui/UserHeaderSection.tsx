@@ -1,6 +1,6 @@
 "use client";
 import ViewToggle from "@/features/toggle-between/ViewToggle";
-import useSpotifyStoreContext from "@/shared/contexts/spotify/useSpotifyStoreContext";
+import useUIStoreContext from "@/shared/state/useUIStoreContext";
 import Image from "next/image";
 
 type UserHeaderSectionProps = {
@@ -10,8 +10,15 @@ type UserHeaderSectionProps = {
 export default function UserHeaderSection({
   lastfmUsername,
 }: UserHeaderSectionProps) {
-  const { spotifyStore } = useSpotifyStoreContext();
-  const { userProfile } = spotifyStore;
+  const { items } = useUIStoreContext();
+  // add placeholder images and names/ or error that user is not found/ seerver error
+  const userProfile = items?.userProfile || {
+    images: [],
+    display_name: "",
+    url: "https://placehold.co/600x400",
+    height: "600",
+    width: "400",
+  };
   const imgInfo = userProfile.images[0];
   const username = userProfile.display_name;
 

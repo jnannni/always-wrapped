@@ -40,5 +40,5 @@ export async function getUsernameFromSupabase() {
     if(error || !data) {
         return NextResponse.json({error: "Failed to fetch lastfm profile"}, {status: 500});
     }
-    return data;
+    return data.username;
 }

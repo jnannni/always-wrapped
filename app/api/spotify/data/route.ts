@@ -1,47 +1,75 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAccessToken } from '@/shared/api/auth';
+import { SpotifyArtist, SpotifyTrack } from '@/shared/types/spotify';
 
 export async function GET(req: NextRequest) {
   try {
+    const timeRanges = ["short_term", "medium_term", "long_term"];
     const accessToken = await getAccessToken();
     if (!accessToken) {
       return NextResponse.json({ error: 'No access token' }, { status: 401 });
     }
 
-    const queryParams = `?time_range=medium_term&limit=5&offset=0`;
-    
-    const endpoints = {
-      topArtists: `https://api.spotify.com/v1/me/top/artists${queryParams}`,
-      topTracks: `https://api.spotify.com/v1/me/top/tracks${queryParams}`,
-      userAlbums: `https://api.spotify.com/v1/me/albums${queryParams}`,
-    };
-    
-    const requests = Object.entries(endpoints).map(async ([key, url]) => {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        }
-      });
+    const timeRangedRequests = timeRanges.map(async(timeRange): Promise<[typeof timeRange, { artists: SpotifyArtist[], tracks: SpotifyTrack[] }]> => {
+      const queryParams = `?time_range=${timeRange}&limit=5&offset=0`;
 
-      if (!response.ok) {
-        console.error("Failed to fetch " + key);
-        return [key, null];
+      const [artistsResponse, tracksResponse] = await Promise.all([
+        fetch(`https://api.spotify.com/v1/me/top/artists${queryParams}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        }),
+        fetch(`https://api.spotify.com/v1/me/top/tracks${queryParams}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        })
+      ]);
+
+      if (!artistsResponse.ok || !tracksResponse.ok) {
+        console.error(`Failed to fetch time range ${timeRange}`);
+        return [timeRange, {artists: [], tracks: []}];
       }
 
-      const data = await response.json();
-      return [key, data.items];
-    });
+      const [artistsData, tracksData] = await Promise.all([
+        artistsResponse.json(),
+        tracksResponse.json()
+      ]);
 
-    requests.push(
+      return [timeRange, {artists: artistsData.items, tracks: tracksData.items}];
+    })
+
+    const [userProfileResponse, userAlbumsResponse] = await Promise.all([
       fetch("https://api.spotify.com/v1/me", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         }
-      }).then(res => res.json()).then(data => ['userProfile', data])
-    );
+      }),
+      fetch("https://api.spotify.com/v1/me/albums", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      })
+    ]);
 
-    const responses = await Promise.all(requests);
-    const { topTracks, topArtists, userAlbums, userProfile } = Object.fromEntries(responses);
+    const timeRangedData = await Promise.all(timeRangedRequests);
+
+    if (!userProfileResponse.ok || !userAlbumsResponse.ok) {
+      console.error("Failed to fetch user data");
+      return NextResponse.json({ error: 'Failed to fetch user data' }, { status: 500 });
+    }
+
+    const userProfile = await userProfileResponse.json();
+    const userAlbums = await userAlbumsResponse.json();
+
+    const topTracks: Record<string, SpotifyTrack[]> = {};
+    const topArtists: Record<string, SpotifyArtist[]> = {};
+
+    timeRangedData.forEach((res) => {
+      const [timeRange, data] = res;
+      topTracks[timeRange] = data.tracks;
+      topArtists[timeRange] = data.artists;
+    });
     
     return NextResponse.json({
       topTracks,
