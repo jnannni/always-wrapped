@@ -1,29 +1,9 @@
+export type TimePeriod = "overall" | "7day" | "1month" | "3month" | "6month" | "12month";
 export type LastfmResType = {
     userProfile: LastfmUser;
-    topTracks: {
-        overall: LastfmTrack[];
-        "7day": LastfmTrack[];
-        "1month": LastfmTrack[];
-        "3month": LastfmTrack[];
-        "6month": LastfmTrack[];
-        "12month": LastfmTrack[];
-    };
-    topArtists: {
-        overall: LastfmArtist[];
-        "7day": LastfmArtist[];
-        "1month": LastfmArtist[];
-        "3month": LastfmArtist[];
-        "6month": LastfmArtist[];
-        "12month": LastfmArtist[];
-    };
-    topAlbums: {
-        overall: LastfmAlbum[];
-        "7day": LastfmAlbum[];
-        "1month": LastfmAlbum[];
-        "3month": LastfmAlbum[];
-        "6month": LastfmAlbum[];
-        "12month": LastfmAlbum[];
-    };
+    topTracks: Record<TimePeriod, LastfmTrack[]>
+    topArtists: Record<TimePeriod, LastfmArtist[]>
+    topAlbums: Record<TimePeriod, LastfmAlbum[]>
     type: 'lastfm';
 }
 
@@ -44,6 +24,7 @@ export type LastfmArtist = {
     name: string;
     image?: LastfmImage[];
     playcount?: number;
+    mbid: string;
     "@attr"?: {
         rank: number;
     }
@@ -53,20 +34,26 @@ export type LastfmAlbum = {
     artist: LastfmArtist;
     image: LastfmImage[];
     name: string;
+    mbid: string;
     playcount: number;
     "@attr"?: {
         rank: number;
     }
 }
 
-export type LastfmTrack = {
+export type LastfmTrackOriginal = {
     name: string;
     image: LastfmImage[];
     artist: LastfmArtist;
+    mbid: string;
     playcount: number;
     "@attr"?: {
         rank: number;
     }
+}
+
+export type LastfmTrack = Omit<LastfmTrackOriginal, 'artist'> & {
+    artists: LastfmArtist[];
 }
 
 type LastfmImage = {

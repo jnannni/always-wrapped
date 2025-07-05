@@ -8,6 +8,7 @@ import { useLastfmProvider } from "./useLastfmProvider";
 
 type UIStoreContextType = {
   items: SpotifyResType | LastfmResType | null;
+  userProfile: SpotifyResType["userProfile"];
   pending: boolean;
   fetched: boolean;
   error: Error | null;
@@ -51,6 +52,16 @@ export const UIStoreProvider = ({
   };
 
   const currentData = dataMap[toggle];
+  const profile = spotifyData.items
+    ? spotifyData.items.userProfile
+    : {
+        country: "Country Unknown",
+        display_name: "Your name could've been here",
+        id: "id",
+        images: [
+          { url: "https://placehold.co/600x400", height: "600", width: "400" },
+        ],
+      };
 
   function handleToggle() {
     setToggle((prev) => (prev === "spotify" ? "lastfm" : "spotify"));
@@ -64,6 +75,7 @@ export const UIStoreProvider = ({
     <UIStoreContext.Provider
       value={{
         items: currentData.items,
+        userProfile: profile,
         pending: currentData.pending,
         fetched: currentData.fetched,
         error: currentData.error,

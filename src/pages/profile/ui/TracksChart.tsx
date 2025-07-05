@@ -1,32 +1,59 @@
 "use client";
 import Image from "next/image";
 import MusicItemCard from "@/features/music-item/MusicItemCard";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SpotifyTrack } from "@/shared/types/spotify";
 import { LastfmTrack } from "@/shared/types/lastfm";
+import { fetchLastfmTrackAlbum } from "@/shared/api/fetchLastfmData";
 import useUIStoreContext from "@/shared/state/useUIStoreContext";
 
-type SpotifyTracks = {
-  tracks: {
-    short_term: SpotifyTrack[];
-    medium_term: SpotifyTrack[];
-    long_term: SpotifyTrack[];
-  };
+type TracksChartProps = {
+  tracks: SpotifyTrack[] | LastfmTrack[];
 };
-
-type LastfmTracks = {
-  tracks: {
-    overall: LastfmTrack[];
-    "7day": LastfmTrack[];
-    "1month": LastfmTrack[];
-    "3month": LastfmTrack[];
-    "6month": LastfmTrack[];
-    "12month": LastfmTrack[];
-  };
-};
-type TracksChartProps = SpotifyTracks | LastfmTracks;
 
 export default function TracksChart({ tracks }: TracksChartProps) {
+  const { toggle } = useUIStoreContext();
+  const [pendingAlbums, setPendingAlbums] = useState(false);
+  const [lastfmAlbumsNames, setLastfmAlbumsNames] = useState<string[]>([]);
+
+  const encodeLastfm = (str: string) => {
+    const regex = /[^A-Za-z0-9]/;
+    if (!regex.test(str)) {
+      return str;
+    }
+    const firstEncoded = encodeURIComponent(str);
+    const secondEncoded = encodeURIComponent(firstEncoded);
+    return secondEncoded;
+  };
+
+  useEffect(() => {
+    async function fetchAlbums() {
+      try {
+        setPendingAlbums(true);
+
+        const trackNames: string[] = [];
+        const artistNames: string[] = [];
+
+        tracks.forEach((track) => {
+          const trackName = encodeLastfm(track.name);
+          const artistName = encodeLastfm(track.artists[0].name);
+          trackNames.push(trackName);
+          artistNames.push(artistName);
+        });
+
+        const response = await fetchLastfmTrackAlbum(trackNames, artistNames);
+        setLastfmAlbumsNames(response || []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setPendingAlbums(false);
+      }
+    }
+    if (toggle === "lastfm") {
+      fetchAlbums();
+    }
+  }, [tracks]);
+
   const handleDetailsItemClick = () => {};
   return (
     <div className="relative">
@@ -42,10 +69,15 @@ export default function TracksChart({ tracks }: TracksChartProps) {
         />
       </div>
       <div className="flex flex-col gap-[15px] max-h-[295px] md:max-h-[365px] overflow-hidden">
-        {tracks.long_term.map((track) => (
+        {tracks.map((track, index) => (
           <MusicItemCard
-            key={track.id}
+            key={
+              "id" in track
+                ? track.id
+                : track.mbid || `${track.name}-${track.artists[0].name}`
+            }
             track={track}
+            album={toggle === "lastfm" ? lastfmAlbumsNames[index] : null}
             onHandleDetailsClick={handleDetailsItemClick}
           />
         ))}

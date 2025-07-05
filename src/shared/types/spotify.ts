@@ -1,15 +1,8 @@
+export type TimePeriod = "short_term" | "medium_term" | "long_term";
 export type SpotifyResType = {
     userProfile: SpotifyUserProfile;
-    topTracks: {
-        short_term: SpotifyTrack[];
-        medium_term: SpotifyTrack[];
-        long_term: SpotifyTrack[];
-    };
-    topArtists: {
-        short_term: SpotifyArtist[];
-        medium_term: SpotifyArtist[];
-        long_term: SpotifyArtist[];
-    }
+    topTracks: Record<TimePeriod, SpotifyTrack[]>;
+    topArtists: Record<TimePeriod, SpotifyArtist[]>;
     userAlbums: SpotifyUserAlbum[];
     type: 'spotify';
 }

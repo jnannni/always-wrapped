@@ -10,15 +10,8 @@ type UserHeaderSectionProps = {
 export default function UserHeaderSection({
   lastfmUsername,
 }: UserHeaderSectionProps) {
-  const { items } = useUIStoreContext();
-  // add placeholder images and names/ or error that user is not found/ seerver error
-  const userProfile = items?.userProfile || {
-    images: [],
-    display_name: "",
-    url: "https://placehold.co/600x400",
-    height: "600",
-    width: "400",
-  };
+  const { userProfile } = useUIStoreContext();
+
   const imgInfo = userProfile.images[0];
   const username = userProfile.display_name;
 

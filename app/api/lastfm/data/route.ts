@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAccessToken } from '@/shared/api/auth';
-import { LastfmTrack, LastfmArtist, LastfmAlbum } from '@/shared/types/lastfm';
+import { LastfmTrack, LastfmArtist, LastfmAlbum, LastfmTrackOriginal } from '@/shared/types/lastfm';
 import { getUsernameFromSupabase } from '@/shared/api/supabase';
 
 export async function GET(req: NextRequest) {
@@ -35,20 +35,9 @@ export async function GET(req: NextRequest) {
         albumsResponse.json()
       ]);
 
-      if (artistsData.error) {
-      console.error(`Last.fm Artists API Error ${artistsData.error}: ${artistsData.message}`);
-      return [timeRange, {artists: [], tracks: [], albums: []}];
-    }
-    if (tracksData.error) {
-      console.error(`Last.fm Tracks API Error ${tracksData.error}: ${tracksData.message}`);
-      return [timeRange, {artists: [], tracks: [], albums: []}];
-    }
-    if (albumsData.error) {
-      console.error(`Last.fm Albums API Error ${albumsData.error}: ${albumsData.message}`);
-      return [timeRange, {artists: [], tracks: [], albums: []}];
-    }
+      const transformedTracks = transformTracks(tracksData.toptracks.track);
 
-      return [timeRange, {artists: artistsData.topartists.artist, tracks: tracksData.toptracks.track, albums: albumsData.topalbums.album}];
+      return [timeRange, {artists: artistsData.topartists.artist, tracks: transformedTracks, albums: albumsData.topalbums.album}];
     })
     
 
@@ -85,4 +74,16 @@ export async function GET(req: NextRequest) {
     console.error('Error fetching Spotify data:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
+}
+
+function transformTrack(origTrack: LastfmTrackOriginal): LastfmTrack {
+  const {artist, ...rest} = origTrack;
+  return {
+    ...rest,
+    artists: [artist]
+  }
+}
+
+function transformTracks(tracks: LastfmTrackOriginal[]): LastfmTrack[] {
+  return tracks.map(transformTrack);
 }

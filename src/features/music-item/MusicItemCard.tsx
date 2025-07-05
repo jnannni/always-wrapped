@@ -3,13 +3,16 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import ItemDetails from "./ItemDetails";
 import { SpotifyTrack } from "@/shared/types/spotify";
+import { LastfmTrack } from "@/shared/types/lastfm";
 
 type MusicItemCardProps = {
-  track: SpotifyTrack;
+  track: SpotifyTrack | LastfmTrack;
+  album: string | null;
   onHandleDetailsClick: (item: string, buttonRef: HTMLButtonElement) => void;
 };
 export default function MusicItemCard({
   track,
+  album,
   onHandleDetailsClick,
 }: MusicItemCardProps) {
   const detailsRef = useRef<HTMLButtonElement>(null);
@@ -40,7 +43,7 @@ export default function MusicItemCard({
       </p>
       <p className="hidden md:block">
         <span className="inline-block text-[12px] mr-[40px] xl:text-[18px]">
-          {track.album.name}
+          {"album" in track ? track.album.name : album}
         </span>
       </p>
       <span className="inline-block text-[12px] xl:text-[14px]">33</span>

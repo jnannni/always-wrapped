@@ -2,6 +2,7 @@
 import { useCallback, useState } from "react";
 import { SpotifyResType } from "../types/spotify";
 import { LastfmResType } from "../types/lastfm";
+import { fetchLastfmTrackAlbum } from "../api/fetchLastfmData";
 
 type DataType = SpotifyResType | LastfmResType;
 
@@ -17,6 +18,8 @@ export const useDataProvider = <T extends DataType>(
   const fetch = useCallback(async () => {
     if (fetched) return;
     setPending(true);
+
+    // await fetchLastfmTrackAlbum();
 
     try {
       const data = await fetchFn();

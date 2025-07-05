@@ -6,14 +6,12 @@ export async function fetchSpotifyData(): Promise<SpotifyResType | null> {
           const response = await fetch('/api/spotify/data');
           if (!response.ok) return null;
           const data = await response.json();
-          console.log("data client", data)
           return data;
     } else {
       const baseUrl = process.env.NEXTAUTH_URL || 'http://127.0.0.1:3000';
       const response = await fetch(`${baseUrl}/api/spotify/data`);
       if (!response.ok) return null;
       const data = await response.json();
-      console.log("data server", data)
       return data;
     }
     }
