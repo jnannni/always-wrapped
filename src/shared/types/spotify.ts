@@ -34,6 +34,7 @@ export type SpotifyTrack = {
     id: string;
     artists: SpotifyArtist[];
     album: SpotifyAlbum;
+    genres: string[];
     name: string;
     preview_url: string;
     popularity: number;

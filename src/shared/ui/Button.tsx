@@ -5,7 +5,7 @@ export default function Button(props: {
 }) {
   return (
     <button
-      className={`block box-borderlowercase text-center cursor-pointer bg-limegreen rounded-[10px] ${props.className}`}
+      className={`block box-border lowercase text-center cursor-pointer bg-limegreen rounded-[10px] ${props.className}`}
       onClick={props.onClickHandler}
     >
       {props.text}

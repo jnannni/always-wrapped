@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
       const [artistsResponse, tracksResponse, albumsResponse] = await Promise.all([
         fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`),
         fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`),
-        fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`)
+        fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`),
       ]);
 
       
