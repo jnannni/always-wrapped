@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState, useMemo } from "react";
 import { useSpotifyProvider } from "./useSpotifyProvider";
 import { SpotifyResType } from "../types/spotify";
 import { useAuth } from "../lib/hooks/useAuth";
@@ -33,43 +33,54 @@ export const UIStoreProvider = ({
   const spotifyData = useSpotifyProvider();
   const lastfmData = useLastfmProvider();
   const { accessToken } = useAuth();
+  const hasFetchedRef = useRef(false);
 
   useEffect(() => {
-    if (accessToken) {
+    if (accessToken && !hasFetchedRef.current) {
       spotifyData.fetch();
       lastfmData.fetch();
+      hasFetchedRef.current = true;
     }
   }, [accessToken]);
 
-  const [toggle, setToggle] = useState<ViewToggle>("lastfm");
+  const [toggle, setToggle] = useState<ViewToggle>("spotify");
   const [timeRanges, setTimeRanges] = useState({
     spotify: "medium_term",
     lastfm: "7day",
   });
-  const dataMap = {
-    ["spotify"]: spotifyData,
-    ["lastfm"]: lastfmData,
-  };
+
+  const dataMap = useMemo(() => {
+    return {
+      ["spotify"]: spotifyData,
+      ["lastfm"]: lastfmData,
+    };
+  }, [spotifyData, lastfmData]);
 
   const currentData = dataMap[toggle];
-  const profile = spotifyData.items
-    ? spotifyData.items.userProfile
-    : {
-        country: "Country Unknown",
-        display_name: "Your name could've been here",
-        id: "id",
-        images: [
-          { url: "https://placehold.co/600x400", height: "600", width: "400" },
-        ],
-      };
+  const profile = useMemo(() => {
+    return spotifyData.items
+      ? spotifyData.items.userProfile
+      : {
+          country: "Country Unknown",
+          display_name: "Your name could've been here",
+          id: "id",
+          images: [
+            {
+              url: "https://placehold.co/600x400",
+              height: "600",
+              width: "400",
+            },
+          ],
+        };
+  }, [spotifyData.items]);
 
-  function handleToggle() {
+  const handleToggle = () => {
     setToggle((prev) => (prev === "spotify" ? "lastfm" : "spotify"));
-  }
+  };
 
-  function handleTimeRangeChange(range: string) {
+  const handleTimeRangeChange = (range: string) => {
     setTimeRanges((prev) => ({ ...prev, [toggle]: range }));
-  }
+  };
 
   return (
     <UIStoreContext.Provider

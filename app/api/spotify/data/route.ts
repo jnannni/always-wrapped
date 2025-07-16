@@ -17,12 +17,14 @@ export async function GET(req: NextRequest) {
         fetch(`https://api.spotify.com/v1/me/top/artists${queryParams}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-          }
+          },
+          next: { revalidate: 36000 }
         }),
         fetch(`https://api.spotify.com/v1/me/top/tracks${queryParams}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-          }
+          },
+          next: { revalidate: 36000 }
         })
       ]);
 
@@ -43,12 +45,14 @@ export async function GET(req: NextRequest) {
       fetch("https://api.spotify.com/v1/me", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-        }
+        },
+          next: { revalidate: 36000 }
       }),
       fetch("https://api.spotify.com/v1/me/albums", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-        }
+        },
+          next: { revalidate: 36000 }
       })
     ]);
 

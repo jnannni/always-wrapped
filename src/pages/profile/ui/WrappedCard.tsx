@@ -3,10 +3,8 @@ import WrappedOverviewList from "./WrappedOverviewList";
 import Image from "next/image";
 import { TimePeriod as LastfmTimePeriod } from "@/shared/types/lastfm";
 import { TimePeriod as SpotifyTimePeriod } from "@/shared/types/spotify";
-import {
-  useSpotifyWrappedOverview,
-  useLastfmWrappedOverview,
-} from "@/shared/lib/hooks/useMusicData";
+import { useLastfmWrappedOverview } from "@/shared/lib/hooks/useLastfmData";
+import { useSpotifyWrappedOverview } from "@/shared/lib/hooks/useSpotifyData";
 
 type WrappedCardProps = {
   spotifyTimePeriod?: SpotifyTimePeriod;
@@ -24,6 +22,9 @@ export default function WrappedCard({
     lastfmTimePeriod || "7day"
   );
 
+  const tracks = spotifyWrappedOverview.tracks || lastfmWrappedOverview.tracks;
+  const artists =
+    spotifyWrappedOverview.artists || lastfmWrappedOverview.artists;
   const color = "bg-crimson";
 
   return (
@@ -36,8 +37,8 @@ export default function WrappedCard({
         2024
       </h2>
       <div className=" flex pt-[14px] gap-[15px] justify-center">
-        <WrappedOverviewList listName="Top tracks" itemNames={["Track 1"]} />
-        <WrappedOverviewList listName="Top artists" itemNames={["Artist 1"]} />
+        <WrappedOverviewList listName="Top tracks" itemNames={tracks} />
+        <WrappedOverviewList listName="Top artists" itemNames={artists} />
       </div>
       <button className="absolute right-4 bottom-4 bg-white px-[10px] py-[5px] rounded-[10px] flex items-center gap-[3px] border-1 border-black">
         <Image

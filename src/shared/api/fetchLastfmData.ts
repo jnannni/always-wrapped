@@ -23,8 +23,9 @@ export async function fetchLastfmData(): Promise<LastfmResType | null> {
 
 export async function fetchLastfmTrackAlbum(tracks: string[], artists: string[]) {
   try {
-    const requests = tracks.map(async (track, index) => {
-      const artist = artists[index];
+    const requests = tracks.map(async (origTrack, index) => {
+      const artist = encodeURIComponent(artists[index]);
+      const track = encodeURIComponent(origTrack);
 
       if (typeof window !== 'undefined') {
         const response = await fetch(`/api/lastfm/get-tracks-album?track=${track}&artist=${artist}`);

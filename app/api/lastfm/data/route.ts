@@ -18,9 +18,9 @@ export async function GET(req: NextRequest) {
       const queryParams = `period=${timeRange}&limit=5`;
 
       const [artistsResponse, tracksResponse, albumsResponse] = await Promise.all([
-        fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`),
-        fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`),
-        fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`),
+        fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`, { next: { revalidate: 36000 } }),
+        fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`, { next: { revalidate: 36000 } }),
+        fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${lastfmUsername}&api_key=${apiKey}&format=json&${queryParams}`, { next: { revalidate: 36000 } }),
       ]);
 
       
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
     })
     
 
-    const userProfileResponse = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${lastfmUsername}&api_key=${apiKey}&format=json`);
+    const userProfileResponse = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${lastfmUsername}&api_key=${apiKey}&format=json`, { next: { revalidate: 36000 } });
 
     const timeRangedData = await Promise.all(timeRangedRequests);
 

@@ -1,8 +1,6 @@
 "use client";
-import {
-  useLastfmTopTracks,
-  useSpotifyTopTracks,
-} from "@/shared/lib/hooks/useMusicData";
+import { useLastfmTopTracks } from "@/shared/lib/hooks/useLastfmData";
+import { useSpotifyTopTracks } from "@/shared/lib/hooks/useSpotifyData";
 import TracksChart from "./TracksChart";
 import useUIStoreContext from "@/shared/state/useUIStoreContext";
 

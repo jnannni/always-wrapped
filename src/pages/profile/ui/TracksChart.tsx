@@ -16,16 +16,6 @@ export default function TracksChart({ tracks }: TracksChartProps) {
   const [pendingAlbums, setPendingAlbums] = useState(false);
   const [lastfmAlbumsNames, setLastfmAlbumsNames] = useState<string[]>([]);
 
-  const encodeLastfm = (str: string) => {
-    const regex = /[^A-Za-z0-9]/;
-    if (!regex.test(str)) {
-      return str;
-    }
-    const firstEncoded = encodeURIComponent(str);
-    const secondEncoded = encodeURIComponent(firstEncoded);
-    return secondEncoded;
-  };
-
   useEffect(() => {
     async function fetchAlbums() {
       try {
@@ -35,8 +25,8 @@ export default function TracksChart({ tracks }: TracksChartProps) {
         const artistNames: string[] = [];
 
         tracks.forEach((track) => {
-          const trackName = encodeLastfm(track.name);
-          const artistName = encodeLastfm(track.artists[0].name);
+          const trackName = encodeURIComponent(track.name);
+          const artistName = encodeURIComponent(track.artists[0].name);
           trackNames.push(trackName);
           artistNames.push(artistName);
         });

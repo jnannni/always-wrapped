@@ -1,6 +1,9 @@
+import { LastfmArtist, LastfmTrack } from "@/shared/types/lastfm";
+import { SpotifyArtist, SpotifyTrack } from "@/shared/types/spotify";
+
 type ListProps = {
   listName: string;
-  itemNames: string[];
+  itemNames: SpotifyArtist[] | SpotifyTrack[] | LastfmArtist[] | LastfmTrack[];
 };
 
 export default function WrappedOverviewList({
@@ -17,7 +20,7 @@ export default function WrappedOverviewList({
               <span className="inline-block w-[20px] mr-[10px]">
                 {index + 1}.
               </span>
-              {item}
+              {item.name}
             </li>
           );
         })}
