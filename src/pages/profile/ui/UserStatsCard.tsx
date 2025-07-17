@@ -1,3 +1,4 @@
+import "@/shared/styles/test.css";
 export default function UserStatsCard(props: { name: string }) {
   return (
     <div className="bg-black flex-col text-white w-[198px] h-[135px] content-between rounded-lg shrink-0">

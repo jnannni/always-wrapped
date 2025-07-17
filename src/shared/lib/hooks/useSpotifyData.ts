@@ -44,13 +44,15 @@ export function useSpotifyWrappedOverview(timePeriod: SpotifyTimePeriod) {
     const tracks = useSpotifyTopTracks(timePeriod);
     const artists = useSpotifytopArtists(timePeriod);
     
-    const genres = artists.map((artist) => {
+    const unsortedGenres = artists.map((artist) => {
         return artist.genres;
     });
-    const sortedGenres = genres.flat().reduce<Record<string, number>>((acc, genre: string) => {
+    const sortedGenres = unsortedGenres.flat().reduce<Record<string, number>>((acc, genre: string) => {
         acc[genre] = (acc[genre] || 0) + 1;
         return acc;
     }, {});
 
-    return { tracks, artists, sortedGenres };
+    const genres = Object.entries(sortedGenres).map(([name, value]) => ({ name, value }));
+
+    return { tracks, artists, genres };
 }

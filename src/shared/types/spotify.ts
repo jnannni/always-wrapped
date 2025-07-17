@@ -6,6 +6,16 @@ export type SpotifyResType = {
     userAlbums: SpotifyUserAlbum[];
     type: 'spotify';
 }
+
+export type SpotifyWrappedResType = {
+    tracks: SpotifyTrack[];
+    artists: SpotifyArtist[];
+    genres: {
+        name: string;
+        value: number;
+    }[];    
+}
+
 type Image = {
     url: string;
     height?: string;

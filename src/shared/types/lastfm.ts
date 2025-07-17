@@ -7,6 +7,12 @@ export type LastfmResType = {
     type: 'lastfm';
 }
 
+export type LastfmWrappedResType = {
+    tracks: LastfmTrack[];
+    artists: LastfmArtist[];
+    genres: {name: string, value: number}[]
+}
+
 export type LastfmUser = {
     age: string;
     country: string;

@@ -61,5 +61,6 @@ export function useLastfmTopGenres(tracks: LastfmTrack[]) {
         }
         loadData();
     }, [tracks]);
-    return genres;
+    const genresTyped = genres.map(([name, value]) => ({name, value}));
+    return genresTyped;
 }

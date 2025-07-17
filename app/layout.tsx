@@ -1,12 +1,32 @@
+import "./globals.css";
+import "./test.css";
 import { SessionProvider } from "next-auth/react";
 import { Providers } from "@/app/providers/Providers";
-import { Quicksand, Cherry_Bomb_One } from "next/font/google";
-import "./globals.css";
+import {
+  Quicksand,
+  Cherry_Bomb_One,
+  Noto_Sans,
+  Nunito,
+} from "next/font/google";
 import Navbar from "../src/shared/ui/Navbar";
 
 const quicksand = Quicksand({
   subsets: ["latin"],
   display: "swap",
+});
+
+const notoSans = Noto_Sans({
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+  weight: "400",
+  variable: "--font-noto-sans",
+});
+
+const nunito = Nunito({
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+  weight: "400",
+  variable: "--font-nunito-sans",
 });
 
 const cherryBombOne = Cherry_Bomb_One({
@@ -23,7 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${quicksand.className} ${cherryBombOne.variable}`}>
+      <body className={`${nunito.className} ${cherryBombOne.variable}`}>
         <SessionProvider>
           <Providers>
             <Navbar />

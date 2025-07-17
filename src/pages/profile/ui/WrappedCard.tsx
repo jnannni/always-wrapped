@@ -5,6 +5,8 @@ import { TimePeriod as LastfmTimePeriod } from "@/shared/types/lastfm";
 import { TimePeriod as SpotifyTimePeriod } from "@/shared/types/spotify";
 import { useLastfmWrappedOverview } from "@/shared/lib/hooks/useLastfmData";
 import { useSpotifyWrappedOverview } from "@/shared/lib/hooks/useSpotifyData";
+import { useState } from "react";
+import WrappedDetailsModal from "./WrappedDetailsModal";
 
 type WrappedCardProps = {
   spotifyTimePeriod?: SpotifyTimePeriod;
@@ -14,6 +16,9 @@ export default function WrappedCard({
   spotifyTimePeriod,
   lastfmTimePeriod,
 }: WrappedCardProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentModalIndex, setCurrentModalIndex] = useState(0);
+
   const spotifyWrappedOverview = useSpotifyWrappedOverview(
     spotifyTimePeriod || "short_term"
   );
@@ -36,11 +41,21 @@ export default function WrappedCard({
       >
         2024
       </h2>
-      <div className=" flex pt-[14px] gap-[15px] justify-center">
-        <WrappedOverviewList listName="Top tracks" itemNames={tracks} />
-        <WrappedOverviewList listName="Top artists" itemNames={artists} />
+      <div className=" flex pt-[14px] px-[10px] gap-[5px]">
+        <WrappedOverviewList
+          listName="Top tracks"
+          itemNames={tracks}
+          className="max-w-[70%]"
+        />
+        <WrappedOverviewList
+          listName="Top artists"
+          itemNames={artists.slice(0, 3)}
+        />
       </div>
-      <button className="absolute right-4 bottom-4 bg-white px-[10px] py-[5px] rounded-[10px] flex items-center gap-[3px] border-1 border-black">
+      <button
+        className="absolute cursor-pointer right-4 bottom-4 bg-white px-[10px] py-[5px] rounded-[10px] flex items-center gap-[3px] border-1 border-black"
+        onClick={() => setIsModalOpen(true)}
+      >
         <Image
           src="/open-details-icon.svg"
           width={512}
@@ -50,6 +65,16 @@ export default function WrappedCard({
         />
         <span className="">Details</span>
       </button>
+      {isModalOpen && (
+        <WrappedDetailsModal
+          currentModalIndex={currentModalIndex}
+          setCurrentModalIndex={setCurrentModalIndex}
+          onClose={() => setIsModalOpen(false)}
+          items={
+            spotifyTimePeriod ? spotifyWrappedOverview : lastfmWrappedOverview
+          }
+        />
+      )}
     </div>
   );
 }

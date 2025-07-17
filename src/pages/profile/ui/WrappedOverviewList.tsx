@@ -4,22 +4,21 @@ import { SpotifyArtist, SpotifyTrack } from "@/shared/types/spotify";
 type ListProps = {
   listName: string;
   itemNames: SpotifyArtist[] | SpotifyTrack[] | LastfmArtist[] | LastfmTrack[];
+  className?: string;
 };
 
 export default function WrappedOverviewList({
   listName,
   itemNames,
+  className,
 }: ListProps) {
   return (
-    <div className="flex flex-col">
+    <div className={`flex flex-col ${className}`}>
       <h4 className="text-[18px] font-semibold">{listName}</h4>
-      <ol>
+      <ol type="1" className="list-decimal pl-4">
         {itemNames.map((item, index) => {
           return (
-            <li key={index} className="text-[16px]">
-              <span className="inline-block w-[20px] mr-[10px]">
-                {index + 1}.
-              </span>
+            <li key={index} className="text-[15px] mb-[-5px] list-item">
               {item.name}
             </li>
           );
