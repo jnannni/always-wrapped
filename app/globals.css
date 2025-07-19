@@ -50,3 +50,73 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer components {
+  .carousel-center {
+    transform: translateX(0) scale(1);
+    z-index: 3;
+    opacity: 1;
+  }
+
+  .carousel-left {
+    transform: translateX(-70%) scale(0.8) rotate(-5deg);
+    z-index: 2;
+    opacity: 0.7;
+  }
+
+  .carousel-right {
+    transform: translateX(70%) scale(0.8) rotate(5deg);
+    z-index: 2;
+    opacity: 0.7;
+  }
+
+  .carousel-hidden {
+    transform: translateX(200%) scale(0.5);
+    z-index: 0;
+    opacity: 0;
+  }
+
+  .wrapped-card-shadow-green {
+    box-shadow: inset 0px 3.31px 3.31px -1.1px rgba(134, 230, 148, 0.15),
+      inset 0px -11.02px 11.02px -3.31px rgba(255, 255, 255, 0.4),
+      inset 0px -22.05px 16.54px -2.76px rgba(177, 239, 184, 0.5),
+      inset 0px -44.1px 33.07px -16.54px rgba(30, 215, 96, 1);
+  }
+
+  .wrapped-card-shadow-red {
+    box-shadow: inset 0px 3.31px 3.31px -1.1px rgba(238, 121, 117, 0.15),
+      inset 0px -11.02px 11.02px -3.31px rgba(255, 255, 255, 0.4),
+      inset 0px -22.05px 16.54px -2.76px rgba(249, 167, 161, 0.5),
+      inset 0px -44.1px 33.07px -16.54px rgba(215, 29, 57, 1);
+  }
+
+  .wrapped-card-shadow-purple {
+    box-shadow: inset 0px 3.31px 3.31px -1.1px rgba(216, 121, 230, 0.15),
+      inset 0px -11.02px 11.02px -3.31px rgba(255, 255, 255, 0.4),
+      inset 0px -22.05px 16.54px -2.76px rgba(231, 167, 239, 0.5),
+      inset 0px -44.1px 33.07px -16.54px rgba(188, 29, 215, 1);
+  }
+
+  .wrapped-card-shadow-yellow {
+    box-shadow: inset 0px 3.31px 3.31px -1.1px rgba(233, 178, 109, 0.15),
+      inset 0px -11.02px 11.02px -3.31px rgba(255, 255, 255, 0.4),
+      inset 0px -22.05px 16.54px -2.76px rgba(244, 203, 157, 0.5),
+      inset 0px -44.1px 33.07px -16.54px rgba(214, 141, 28, 1);
+  }
+
+  .underline-color-green {
+    filter: invert(62%) sepia(57%) saturate(614%) hue-rotate(88deg) brightness(95%) contrast(95%);
+  }
+
+  .underline-color-red {
+    filter: invert(34%) sepia(92%) saturate(5258%) hue-rotate(337deg) brightness(83%) contrast(103%);
+  }
+
+  .underline-color-purple {
+    filter: invert(28%) sepia(90%) saturate(6350%) hue-rotate(284deg) brightness(95%) contrast(98%);
+  }
+
+  .underline-color-yellow {
+    filter: invert(74%) sepia(76%) saturate(2561%) hue-rotate(348deg) brightness(88%) contrast(90%);
+  }
+}

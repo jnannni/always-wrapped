@@ -4,9 +4,7 @@ import SpotifyUserTopTracks from "./SpotifyUserTopTracks";
 type UserListeningTrendsProps = {
   timeRange: string;
 };
-export default function UserListeningTrends({
-  timeRange,
-}: UserListeningTrendsProps) {
+export default function UserListeningTrends({ timeRange }: UserListeningTrendsProps) {
   return (
     <section className="flex flex-col gap-[5px]">
       <h3 className="font-semibold text-[50px] leading-8 mb-[5px] md:mb-[25px] xl:text-[60px] xl:leading-9">
@@ -19,7 +17,7 @@ export default function UserListeningTrends({
               width={317}
               height={48}
               alt="Underline for a word"
-              className="absolute left-3 top-7 -z-1"
+              className="absolute left-3 top-7 -z-1 underline-color-green"
             />
           </span>
         </span>

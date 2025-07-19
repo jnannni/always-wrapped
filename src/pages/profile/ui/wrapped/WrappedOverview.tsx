@@ -8,7 +8,7 @@ export default function WrappedOverview() {
     <div className="flex flex-col gap-[10px] items-center -mx-[30px] xl:-mx-[80px]">
       <hr className="w-full border-2 border-black" />
       <h3 className="text-[30px] capitalize mt-[11px]">Your wrapped</h3>
-      <div className="flex gap-[23px] w-full  overflow-hidden overflow-scroll">
+      <div className="flex gap-[23px] w-full overflow-scroll">
         <WrappedCard spotifyTimePeriod="short_term" />
         <WrappedCard spotifyTimePeriod="short_term" />
         <WrappedCard spotifyTimePeriod="short_term" />

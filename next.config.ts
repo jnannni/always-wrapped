@@ -5,13 +5,13 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     config.watchOptions = {
       ...config.watchOptions,
-      ignored: ['**/node_modules', '**/.git'],
-    }
+      ignored: ["**/node_modules", "**/.git"],
+    };
     config.snapshot = {
       ...config.snapshot,
       managedPaths: [],
-    }
-    return config
+    };
+    return config;
   },
   
   allowedDevOrigins: [
@@ -20,18 +20,18 @@ const nextConfig: NextConfig = {
     images: {
       remotePatterns: [
         {
-          protocol: 'https',
-          hostname: 'i.scdn.co',
-          port: '',
-          pathname: '/image/**',
+          protocol: "https",
+          hostname: "i.scdn.co",
+          port: "",
+          pathname: "/image/**",
         },
         {
-          protocol: 'https',
-          hostname: 'placehold.co',
-          port: '',
-          pathname: '/**',
+          protocol: "https",
+          hostname: "placehold.co",
+          port: "",
+          pathname: "/**",
         }
-      ]
+      ],
     },
 };
 

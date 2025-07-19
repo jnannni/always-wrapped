@@ -1,6 +1,6 @@
 import UserHeaderSection from "./UserHeaderSection";
 import UserListeningTrends from "./UserListeningTrends";
-import WrappedOverview from "./WrappedOverview";
+import WrappedOverview from "./wrapped/WrappedOverview";
 import { getSupabaseAccessToken } from "@/shared/api/auth";
 import UserStats from "./UserStats";
 import ProfileDataWrapper from "./ProfileDataWrapper";
@@ -15,10 +15,7 @@ export default async function SpotifyView() {
         <div className="md:flex md:gap-[80px] xl:gap-[150px]">
           <section className="flex flex-col gap-[25px]">
             <UserHeaderSection />
-            <UserStats
-              lastfmConnected={Boolean(lastfmConnected)}
-              accessToken={accessToken || ""}
-            />
+            <UserStats lastfmConnected={Boolean(lastfmConnected)} accessToken={accessToken || ""} />
           </section>
           <UserListeningTrends timeRange="weekly" />
         </div>

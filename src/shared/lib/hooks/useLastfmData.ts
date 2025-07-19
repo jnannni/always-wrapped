@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import useUIStoreContext from "@/shared/state/useUIStoreContext";
 import { TimePeriod as LastfmTimePeriod, LastfmTrack } from "@/shared/types/lastfm";
 import { useEffect, useState, useMemo } from "react";
@@ -11,7 +11,7 @@ export function useLastfmTopTracks(timePeriod: LastfmTimePeriod) {
         if (items?.type !== "lastfm") return [];
         return items.topTracks[timePeriod];
 
-    }, [items, timePeriod])
+    }, [items, timePeriod]);
 }
 
 export function useLastfmTopArtists(timePeriod: LastfmTimePeriod) {

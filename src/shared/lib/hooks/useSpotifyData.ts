@@ -37,22 +37,19 @@ export function useSpotifyTopAlbums() {
             } else setAlbums([]);
         }
         fetchAlbums();
-    }, [])
+    }, []);
 }
 
 export function useSpotifyWrappedOverview(timePeriod: SpotifyTimePeriod) {
     const tracks = useSpotifyTopTracks(timePeriod);
     const artists = useSpotifytopArtists(timePeriod);
     
-    const unsortedGenres = artists.map((artist) => {
-        return artist.genres;
-    });
-    const sortedGenres = unsortedGenres.flat().reduce<Record<string, number>>((acc, genre: string) => {
+    const genres = Object.entries(artists.flatMap(artist => artist.genres).reduce<Record<string, number>>((acc, genre: string) => {
         acc[genre] = (acc[genre] || 0) + 1;
         return acc;
-    }, {});
-
-    const genres = Object.entries(sortedGenres).map(([name, value]) => ({ name, value }));
+    }, {}))
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, value]) => ({ name, value }));
 
     return { tracks, artists, genres };
 }
