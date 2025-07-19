@@ -24,10 +24,10 @@
   --color-darkviolet-600: #e091ea;
   --color-darkviolet-500: #e7a7ef;
   --color-darkgoldenrod: #d68d1c;
-  --color-darkgoldenrod: #e4a655;
-  --color-darkgoldenrod: #e9b26d;
-  --color-darkgoldenrod: #efbf85;
-  --color-darkgoldenrod: #f4cb9d;
+  --color-darkgoldenrod-800: #e4a655;
+  --color-darkgoldenrod-700: #e9b26d;
+  --color-darkgoldenrod-600: #efbf85;
+  --color-darkgoldenrod-500: #f4cb9d;
   --color-placeholder: #e3e3e3;
 }
 
@@ -118,5 +118,18 @@ body {
 
   .underline-color-yellow {
     filter: invert(74%) sepia(76%) saturate(2561%) hue-rotate(348deg) brightness(88%) contrast(90%);
+  }
+
+  .color-white {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(83deg) brightness(105%) contrast(101%);
+  }
+  @media (min-width: 1024px) {
+    .carousel-left {
+      transform: translateX(-30%) scale(0.8) rotate(-5deg);
+    }
+
+    .carousel-right {
+      transform: translateX(30%) scale(0.8) rotate(5deg);
+    }
   }
 }

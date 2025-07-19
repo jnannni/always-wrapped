@@ -7,18 +7,17 @@ type ListProps = {
   className?: string;
 };
 
-export default function WrappedOverviewList({
-  listName,
-  itemNames,
-  className,
-}: ListProps) {
+export default function WrappedOverviewList({ listName, itemNames, className }: ListProps) {
   return (
-    <div className={`flex flex-col ${className}`}>
+    <div className={`flex flex-col ${className} text-white`}>
       <h4 className="text-[18px] font-semibold">{listName}</h4>
       <ol type="1" className="list-decimal pl-4">
         {itemNames.map((item, index) => {
           return (
-            <li key={index} className="text-[15px] mb-[-5px] list-item">
+            <li
+              key={index}
+              className="text-[15px] leading-tight max-w-[130px] list-item text-ellipsis"
+            >
               {item.name}
             </li>
           );

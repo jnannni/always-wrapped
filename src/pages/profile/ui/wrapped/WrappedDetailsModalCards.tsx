@@ -37,10 +37,11 @@ export default function WrappedDetailsModalCards({
   const { shadow, underline } = getColorClasses(index);
   return (
     <div
-      className={`relative flex flex-col w-[275px] h-[320px] bg-primary-black rounded-[10px] overflow-hidden ${shadow}`}
+      className={`relative flex flex-col w-[275px] h-[320px] bg-primary-black rounded-[10px] overflow-hidden ${shadow}
+      md:w-[400px] md:h-[480px]`}
     >
       <div className="relative flex justify-center pt-[18px] pb-[10px] flex-shrink-0">
-        <h5 className="text-white text-[25px] font-bold leading-5 text-center z-10">
+        <h5 className="text-white text-[25px] font-bold leading-5 text-center z-10 md:text-[50px] md:leading-10">
           Your top <br />
           {name}
         </h5>
@@ -50,7 +51,7 @@ export default function WrappedDetailsModalCards({
           width={317}
           height={48}
           alt="Underline for a word"
-          className={`absolute w-[120px] top-11 z-9 ${underline}`}
+          className={`absolute w-[120px] top-11 z-9 ${underline} md:top-20 md:w-[200px]`}
         />
       </div>
       <ol className="flex flex-col flex-1 max-h-[100%] pb-[10px] text-white overflow-y-auto">
@@ -70,16 +71,18 @@ export default function WrappedDetailsModalCards({
           return (
             <li
               key={item.name}
-              className="flex justify-between items-center px-[20px] py-[8px] text-[16px] flex-shrink-0"
+              className="flex justify-between items-center px-[20px] py-[8px] flex-shrink-0"
             >
               <div className="flex items-center">
-                <span className="inline-block text-[18px] w-[20px] mr-[5px]">{index + 1}</span>
-                <div className="flex flex-col max-w-[200px]">
-                  <p className="text-white leading-tight">{item.name}</p>
-                  {artists && <p className="text-white text-[9px]">{artists}</p>}
+                <span className="inline-block text-[18px] w-[20px] mr-[5px] md:text-[25px] md:mr-[10px]">
+                  {index + 1}
+                </span>
+                <div className="flex flex-col max-w-[200px] md:max-w-[300px]">
+                  <p className="text-white leading-tight md:text-[25px]">{item.name}</p>
+                  {artists && <p className="text-white text-[9px] md:text-[15px]">{artists}</p>}
                 </div>
               </div>
-              <p className="text-white">{popularity && popularity}</p>
+              <p className="text-white md:text-[25px]">{popularity && popularity}</p>
             </li>
           );
         })}

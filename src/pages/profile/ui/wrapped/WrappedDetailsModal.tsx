@@ -61,13 +61,13 @@ export default function WrappedDetailsModal({
   return (
     <div className="fixed inset-0 flex justify-center bg-primary-black/30 z-[100] backdrop-blur-xs">
       <button
-        className="absolute flex justify-center items-center cursor-pointer w-[30px] h-[30px] rounded-full bg-black top-1/2 left-[15px] z-100"
+        className="absolute flex justify-center items-center cursor-pointer w-[30px] h-[30px] rounded-full bg-black top-1/2 left-[15px] z-100 md:left-1/4"
         onClick={onPrevIndex}
       >
         <MdArrowBackIos className="text-white" size={20} title="Previous" />
       </button>
       <button
-        className="absolute flex justify-center items-center cursor-pointer w-[30px] h-[30px] rounded-full bg-black top-1/2 right-[13px] z-100"
+        className="absolute flex justify-center items-center cursor-pointer w-[30px] h-[30px] rounded-full bg-black top-1/2 right-[13px] z-100 md:right-1/4"
         onClick={onNextIndex}
       >
         <MdArrowForwardIos className="text-white" size={20} title="Next" />
@@ -88,6 +88,20 @@ export default function WrappedDetailsModal({
                 onClose={onClose}
               />
             </div>
+          );
+        })}
+      </ul>
+      <ul className="flex absolute bottom-1/4 gap-[10px] md:bottom-1/6">
+        {categories.map((_, index) => {
+          const indicatorColor =
+            index === currentModalIndex ? "bg-primary-black" : "bg-primary-black/30";
+          return (
+            <li key={index}>
+              <button
+                onClick={() => setCurrentModalIndex(index)}
+                className={`w-[15px] h-[15px] rounded-full transition-all duration-200 ease-in ${indicatorColor}`}
+              ></button>
+            </li>
           );
         })}
       </ul>
